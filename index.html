@@ -7,7 +7,16 @@
 </head>
 
 <body>
-	<div id="app">
+	<div id="app" class="page">
+		<h1>{{ salutation }}</h1>
+		<h2>How are you feeling right now?</h2>
+		<div class="moods">
+			<mood-button mood="sad"></mood-button>
+			<mood-button mood="neutral"></mood-button>
+			<mood-button mood="happy"></mood-button>
+		</div>
+		<hr>
+		<p>The last answer was <strong>happy</strong></p>
 	</div>
 	
 	<script src="//unpkg.com/vue"></script>
