@@ -1,5 +1,5 @@
 <template>
-	<div class="mood">
+	<div class="mood" @click="postMood()">
 		<i v-bind:class="currentIcon"></i>
 	</div>
 </template>
@@ -10,6 +10,9 @@ module.exports = {
 	props: {
 		mood: {
 			default: 'neutral',
+		},
+		url: {
+			default: config.apiURL || 'http://localhost'
 		},
 	},
 
@@ -24,7 +27,21 @@ module.exports = {
 	},
 
 	methods: {
-	
+		postMood: function () {
+			let root = this
+			let previousIcon = this.currentIcon
+
+			this.currentIcon = this.loadingIcon
+
+			axios.post(this.url, {
+				mood: this.mood
+			}).then((response) => {
+				console.log('OK:', response)
+				root.currentIcon = previousIcon
+			}).catch((response) => {
+				console.log('ERROR:', response)
+			})
+		}
 	},
 
 	created () {

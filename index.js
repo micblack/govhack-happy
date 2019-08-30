@@ -13,6 +13,8 @@ const vm = new window.Vue({
 	data() {
 		return {
 			salutation: 'Hello',
+			currentMood: '',
+			url: config.apiURL || 'http://localhost'
 		}
 	},
 
@@ -33,11 +35,20 @@ const vm = new window.Vue({
 			return response
 		},
 
+		getLastMood() {
+			let root = this
+			axios.get(this.url).then((response) => {
+				console.log('Last mood', response.data)
+				root.currentMood = response.data.mood
+			})
+		},
+
 	},
 
 	created() {
 
 		this.salutation = this.salutationByTimeOfDay()
+		this.getLastMood()
 
 	}
 
