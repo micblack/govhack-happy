@@ -43,12 +43,25 @@ const vm = new window.Vue({
 			})
 		},
 
+		watchMoodChanges() {
+			let root = this
+			let wsURL = this.url.replace('http', 'ws')
+			let conn = new ReconnectingWebSocket(wsURL)
+
+			conn.onmessage = (e) => {
+				console.log('WS mood change message', e.data)
+				let data = JSON.parse(e.data)
+				root.currentMood = data.mood
+			}
+		},
+
 	},
 
 	created() {
 
 		this.salutation = this.salutationByTimeOfDay()
 		this.getLastMood()
+		this.watchMoodChanges()
 
 	}
 
